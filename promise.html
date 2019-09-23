@@ -1,0 +1,74 @@
+<script>
+  const isFunction = res => typeof res === 'function'
+  class MyPromise {
+    /**
+     * @description: 
+     * @param {String} status 状态
+     * @param {String} val 内容
+     * @param {Array} resolveList 执行队列的数组
+     * @return: Promise对象
+     */
+    constructor (handle) {
+      this.status = 'PENDDING'
+      this.val = undefined
+      this.resolveList = []
+      this.resolve = (value) => {
+        console.log('value', value)
+        if (this.status !== 'PENDDING') return
+        this.status = 'RESOLVE'
+        this.val = value
+        setTimeout(() => {
+          this.resolveList.forEach(fn => fn())
+        })
+      }
+      this.reject = (err) => {
+        console.log(err)
+      }
+      try {
+        handle(this.resolve, this.reject)
+      } catch (err) {
+        throw err;
+      }
+    }
+    then (suc, err) {
+      console.log('this.val', this.val)
+      const val = this.val
+      const status = this.status
+      return new MyPromise((resolve, reject) => {
+        const success = () => {
+          if (!isFunction(suc)) {
+            resolve(suc)
+          } else {
+            const res = suc(val)
+            resolve(res)
+          }
+        }
+        switch (status) {
+          case "PENDDING":
+            this.resolveList.push(suc)
+          case "RESOLVE":
+            success(val)
+            break
+        }
+      })
+    }
+  }
+new MyPromise((resolve, reject) => {
+  setTimeout(() => {
+    resolve(123123)
+  }, 1000)
+}).then(res => {
+  console.log(res)
+})
+
+// new Promise((res, rej) => {
+//   setTimeout(() => {
+//     res(123123)
+//   }, 1000)
+// }).then(res => {
+//   console.log(res)
+//   return res + 456
+// }).then(res => {
+//   console.log(res)
+// })
+</script>

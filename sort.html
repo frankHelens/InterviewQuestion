@@ -1,0 +1,57 @@
+<script>
+// es6 sort
+class Es6Sort {
+  constructor (arr) {
+    return arr.sort((a, b) => a - b)
+  }
+}
+// 冒泡排序
+class Bubbling {
+  // 两数之间的大小对比做交换
+  constructor (arr) {
+    for (let j = 0; j < arr.length; j++) {
+      for (let i = 0; i < arr.length - 1; i++) {
+        if (arr[i] > arr[i + 1]) {
+          this.swap(arr, i, i + 1)
+        }
+      }
+    }
+    return arr
+  }
+  swap (array, i, j) {
+    [array[i], array[j]] = [array[j], array[i]]
+  }
+}
+// 归分排序
+class Divide {
+  // 先把数组按最后一个元素作为分界点，把数组一分为三。除了分界点之外，左子部分全是小于等于4的，右子部分全是大于4的，它们可以进一步递归排序。因为是原地排序（不需要额外空间），因此不需归并那种合并操作。
+  constructor (arr) {
+    // 选取最后一个元素为分界点
+    const lastItem = arr[arr.length - 1]
+    // 遍历数组找小于等于分界点的元素
+    const leftItems = arr.filter(item => item <= lastItem)
+    // 遍历数组找大于分界点的元素 
+    const rightItems = arr.filter(item => item > lastItem)
+    console.log(lastItem, leftItems, rightItems)
+  }
+  partition (array, start, end) {
+    let j = start
+    let pivot = array[end]
+    for (let i = start; i <= end; i++) {
+    if (array[i] <= pivot) {
+      this.swap(array, i, j++)
+      }
+    }
+    return j - 1
+  }
+}
+
+// 排序  
+const originArr = [0, 5, 7, 2, 3, 5, 10, 6, 1]
+// const es6Sort = new Es6Sort(originArr)
+// const bubbling = new Bubbling(originArr)
+const divide = new Divide(originArr)
+// console.log(es6Sort)
+// console.log(bubbling)
+console.log(divide)
+</script>

@@ -1,0 +1,69 @@
+<script>
+  /* 
+    1. MainDeplay
+    2. MainDeplay('Frank')
+    输出 hello Frank
+    3. MainDeplay('Frank').sleep(10).eat('dinner')
+    输出
+    hello Frank
+    等待10秒
+    wait in 10
+    eat dinner
+    4. MainDeplay('Frank).eat('dinner').eat('xixixi')
+    输出
+    hello Frank
+    eat dinner
+    eat xixixi
+   */
+function MainDeplay (val) {
+  this.value = val
+  this.executeArr = []
+  this.time = undefined
+  this.status = 'APPEND'
+  console.log('hello  ' + val)
+  // this.executeArr.push(function () {
+  //   console.log('hello  ' + val)
+  // })
+
+  // console.log(this.executeArr)
+
+  // setTimeout(() => {
+  //   this.executeArr.forEach(item => {
+  //     item()
+  //   })
+  // })
+
+  // var cb;
+  // setTimeout(() => {
+  //   while (cb = this.executeArr.shift()) {
+  //     try {
+  //     cb()
+  //     } catch {
+  //     }
+  //   } 
+  // }, this.status === 'SLEEP' ? this.time : 0)
+  return this
+}
+
+// MainDeplay.prototype.sleep = function (time) {
+//   this.time = time * 1000
+//   this.status = 'SLEEP'
+//   this.executeArr.push(function () {
+//     console.log('sleep in ' + time)
+//   })
+//   return this
+// }
+
+
+MainDeplay.prototype.eat = function (val) {
+  console.log('eat  ' + val)
+  // this.executeArr.push(function () {
+  //   console.log('eat  ' + val)
+  // })
+  return this
+}
+
+
+const mainDeplay = new MainDeplay('frank').eat('hewsdsf').eat('sadfasdf').eat('sdfsdfsdf')
+
+</script>

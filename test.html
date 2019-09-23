@@ -1,0 +1,42 @@
+<script>
+const testFuncList = [() => {
+  console.log(11111)
+}, () => {
+  console.log(22222)
+}, () => {
+  console.log(33333)
+}]
+
+testFuncList.forEach(item => {
+  item()
+})
+
+let cb;
+while (cb = testFuncList.shift()) {
+  cb()
+}
+
+const arr = [{
+  name: '0'
+}, {
+  name: '1'
+}, {
+  name: '2'
+}, {
+  name: '3'
+}]
+
+// 命令式编程
+let resData = []
+for (let i = 0; i < arr.length; i++) {
+  arr[i].name = 123123
+  resData.push(arr[i])
+}
+console.log('resData', resData)
+
+const resData1 = arr.map(item => ({
+  name: 685968
+}))
+console.log('resData1', resData1)
+
+</script>
