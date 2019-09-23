@@ -1,0 +1,100 @@
+<script>
+  /* 
+    1. 封装一个函数MainDeplay，调用MainDeplay('Helen')
+    输出 hello Helen
+    2. 调用MainDeplay('Helen').sleep(10).eat('dinner')
+    输出
+      hello Helen
+    等待10秒后输出
+      wait in 10
+      eat dinner
+    3. 调用MainDeplay('Helen').eat('dinner').eat('fruits')
+    输出
+      hello Helen
+      eat dinner
+      eat fruits
+    4. 调用MainDeplay('Helen').firstSleep(10).eat('dinner')
+    输出
+    等待10秒后输出
+      hello Helen
+      wait in 10
+      eat dinner
+   */
+function MainDeplay (val) {
+  this.tasks = []
+  this.tasks.push(['hello', val]);
+  this.nextWork(0)
+  // var cb;
+  // setTimeout(() => {
+  //   while (cb = this.tasks.shift()) {
+  //     try {
+  //     cb()
+  //     } catch {
+  //     }
+  //   } 
+  // }, this.status === 'SLEEP' ? this.time : 0)
+  return this
+}
+
+MainDeplay.prototype.work = function () {
+  var cb;
+  while (cb = this.tasks.shift()) {
+    const [name, args] = this.tasks
+    console.log(name, args)
+    switch (name){
+      case 'sleep':
+        const time = args * 1000
+        this.nextWork(time, () => { this.dialog(`sleep in ${args}`) })
+        return;
+      case 'firstSleep':
+        console.log('args', args)
+        // const time = args * 1000
+        // this.nextWork(time, null, () => { this.dialog(`sleep in ${args}`) })
+        return;
+      case 'hello':
+        console.log(`hello ${args}`)
+        break;
+      case 'eat':
+        console.log(`eat ${args}`)
+        break;
+    }
+    this.nextWork()
+  }
+}
+
+MainDeplay.prototype.dialog = function (val) {
+  console.log(val)
+}
+
+MainDeplay.prototype.nextWork = function (time, beforeFn = () => {}, afterFn = () => {}) {
+  setTimeout(() => {
+    beforeFn()
+    this.work()
+    afterFn()
+  }, time)
+}
+
+MainDeplay.prototype.sleep = function (time) {
+  this.tasks.push(['sleep', time])
+  return this
+}
+
+MainDeplay.prototype.eat = function (val) {
+  this.tasks.push(['eat', val])
+  return this
+}
+MainDeplay.prototype.firstSleep = function (time) {
+  this.tasks.unshift(['firstSleep', time])
+  return this
+}
+
+const mainDeplay = new MainDeplay('frank')
+
+mainDeplay
+  // .firstSleep(3)
+  .eat('sadfasdf')
+  .eat('sdfsdfsdf')
+  .sleep(1)
+  .eat('我去')
+
+</script>
