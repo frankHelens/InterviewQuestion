@@ -24,32 +24,20 @@ function MainDeplay (val) {
   this.tasks = []
   this.tasks.push(['hello', val]);
   this.nextWork(0)
-  // var cb;
-  // setTimeout(() => {
-  //   while (cb = this.tasks.shift()) {
-  //     try {
-  //     cb()
-  //     } catch {
-  //     }
-  //   } 
-  // }, this.status === 'SLEEP' ? this.time : 0)
   return this
 }
 
 MainDeplay.prototype.work = function () {
   var cb;
   while (cb = this.tasks.shift()) {
-    const [name, args] = this.tasks
-    console.log(name, args)
+    const [name, args] = cb
+    // console.log(name, args)
     switch (name){
       case 'sleep':
-        const time = args * 1000
-        this.nextWork(time, () => { this.dialog(`sleep in ${args}`) })
+        this.nextWork(args * 1000, () => { this.dialog(`sleep in ${args}`) })
         return;
       case 'firstSleep':
-        console.log('args', args)
-        // const time = args * 1000
-        // this.nextWork(time, null, () => { this.dialog(`sleep in ${args}`) })
+        this.nextWork(args * 1000, undefined, () => { this.dialog(`sleep in ${args}`) })
         return;
       case 'hello':
         console.log(`hello ${args}`)
@@ -58,7 +46,6 @@ MainDeplay.prototype.work = function () {
         console.log(`eat ${args}`)
         break;
     }
-    this.nextWork()
   }
 }
 
@@ -91,10 +78,14 @@ MainDeplay.prototype.firstSleep = function (time) {
 const mainDeplay = new MainDeplay('frank')
 
 mainDeplay
-  // .firstSleep(3)
-  .eat('sadfasdf')
-  .eat('sdfsdfsdf')
+  .eat('我是第一')
   .sleep(1)
-  .eat('我去')
+  .eat('一秒后到我了')
+  .sleep(2)
+  .eat('两秒后到我了')
+  .firstSleep(3)
+  .sleep(2)
+  .eat('两秒后我是最后')
+
 
 </script>
