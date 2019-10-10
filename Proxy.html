@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <input type="text" id="input">
+  <button onclick="onChange()">test</button>
+  <h1 id="demo"></h1>
+  <script>
+
+    let input = document.querySelector('#input')
+    let demo = document.querySelector('#demo')
+    let data = {
+      foo: 1
+    }
+    let p = new Proxy(data, {
+      get (target, key, receiver) {
+        console.log('get', target, key, receiver)
+        return target[key]
+      },
+      set (target, key, value, receiver) {
+        console.log('set', target, key, value, receiver)
+        target[key] = value
+      }
+    })
+    function onChange () {
+      p.foo = input.value
+      demo.innerHTML = p.foo
+    }
+  </script>
+</body>
+</html>
